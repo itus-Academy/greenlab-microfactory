@@ -1,0 +1,59 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Sal Example</title>
+
+  <!-- Add sal.js stylesheet -->
+  <!-- <link rel="stylesheet" href="sal.css"> -->
+  <styl
+</head>
+<body>
+  <!-- Add element, which needs to fade in -->
+  <div data-sal="fade">
+      it is getting there
+  </div>
+
+  <!-- Add sal.js script -->
+  <script src="js/sal.js"></script>
+
+  <!-- Initialise sal in your script -->
+  <script>
+    sal();
+
+    const SELECTOR = '.item';
+const ANIMATE_CLASS_NAME = 'animate';
+
+const animate = element => (
+  element.classList.add(ANIMATE_CLASS_NAME)
+);
+
+const isAnimated = element => (
+  element.classList.contains(ANIMATE_CLASS_NAME)
+);
+
+const intersectionObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    
+    // when element's is in viewport,
+    // animate it!
+    if (entry.intersectionRatio > 0) {
+      animate(entry.target);
+    }
+    
+    // remove observer after animation
+    observer.unobserve(entry.target);
+  });
+});
+
+// get only these elements,
+// which are not animated yet
+const elements = [].filter.call(
+  document.querySelectorAll(SELECTOR),
+  element => !isAnimated(element, ANIMATE_CLASS_NAME),
+);
+
+// start observing your elements
+elements.forEach((element) => intersectionObserver.observe(element));
+  </script>
+</body>
+</html>
